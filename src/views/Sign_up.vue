@@ -13,12 +13,21 @@
 </script>
 
 <template>
-  <div class="md:p-16 p-0">
+  <div class="h-screen flex justify-center items-center">
     <div
-      class="bg-white rounded-md min-h-[650px] p-8 md:p-16 flex justify-between"
+      class="bg-white rounded-md min-h-[650px] max-w-5xl p-8 md:p-16 flex justify-between"
     >
       <div class="left">
-        <h1 class="text-4xl font-bold mb-12">Sign Up</h1>
+        <div class="flex justify-between items-baseline">
+          <h1 class="text-4xl font-bold mb-12">Sign Up</h1>
+          <router-link :to="{ name: 'Home' }" class="cursor-pointer">
+            <img
+              src="../assets/images/x-lg-svgrepo-com.svg"
+              alt="close"
+              class="w-4 h-4"
+            />
+          </router-link>
+        </div>
         <p v-if="error" class="text-red-500 mb-3">{{ error }}</p>
         <form @submit.prevent="onSubmit" class="space-y-7">
           <div class="row">
@@ -129,7 +138,7 @@
       </div>
 
       <div class="right hidden md:flex flex-col items-center justify-center">
-        <div class="w-4/5 h-auto">
+        <div class="w-4/5 lg:w-full h-auto">
           <img src="../assets/images/sign_up.jpg" alt="" />
         </div>
         <router-link :to="{ name: 'Login' }" class="underline"

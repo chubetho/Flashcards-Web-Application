@@ -1,6 +1,8 @@
 <script setup>
   import { ref } from 'vue';
+  import { useRoute } from 'vue-router';
 
+  const route = useRoute();
   const menuOpen = ref(false);
   const searchOpen = ref(false);
 
@@ -28,22 +30,29 @@
         />
         <div class="branch_logo font-bold text-xl mr-8 hidden md:block">
           <router-link :to="{ name: 'Home' }">
-            Flash
-            <span class="text-primary">Cards</span>
+            Flash<span class="text-primary">Cards</span>
           </router-link>
         </div>
         <div class="submenu hidden md:flex md:items-center">
           <div class="flex space-x-8 text-sm font-semibold">
             <router-link
-              :to="{ name: 'Home' }"
+              :to="{ name: 'Latest' }"
               class="hover:font-bold hover:text-primary_dark"
-              >Home</router-link
             >
+              Start
+            </router-link>
             <router-link
               :to="{ name: 'Home' }"
               class="hover:font-bold hover:text-primary_dark"
-              >Subject areas</router-link
             >
+              Subject areas
+            </router-link>
+            <router-link
+              :to="{ name: 'CreateFlashcards' }"
+              class="hover:font-bold hover:text-primary_dark"
+            >
+              Create
+            </router-link>
           </div>
         </div>
       </div>
@@ -52,7 +61,7 @@
     <!-- Right side of topbar -->
     <div class="right flex items-center justify-end space-x-4">
       <div
-        class="search border border-black rounded-full w-7 h-7 flex justify-center xl:justify-end items-center xl:w-80"
+        class="search border border-black rounded-full w-7 h-7 flex justify-center xl:justify-end items-center xl:rounded-lg xl:w-80"
         :class="{ 'w-80': searchOpen, 'justify-end': searchOpen }"
       >
         <input
@@ -67,17 +76,42 @@
           @click="toggleSearch"
         />
       </div>
-      <div class="buttons space-x-4" v-if="!searchOpen">
-        <router-link
-          :to="{ name: 'Login' }"
-          class="bg-white px-3.5 py-1.5 rounded-sm text-sm font-bold hover:bg-light hover:text-primary_dark"
-          >Login</router-link
-        >
-        <router-link
-          :to="{ name: 'SignUp' }"
-          class="bg-primary px-3.5 py-1.5 rounded-sm text-sm font-bold shadow-md text-white hover:bg-primary_dark active:bg-primary_dark"
-          >Sign up</router-link
-        >
+      <div class="buttons" v-if="!searchOpen">
+        <div class="space-x-4" v-if="route.meta.type === 'auth'">
+          <router-link
+            :to="{ name: 'Login' }"
+            class="bg-white px-3.5 py-1.5 rounded-sm text-sm font-bold hover:bg-light hover:text-primary_dark"
+          >
+            Login
+          </router-link>
+          <router-link
+            :to="{ name: 'SignUp' }"
+            class="bg-yellow px-3.5 py-1.5 rounded-sm text-sm font-bold shadow-md text-black hover:bg-primary_dark active:bg-primary_dark"
+          >
+            Sign up
+          </router-link>
+        </div>
+
+        <div class="space-x-4 flex" v-else>
+          <div
+            class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center"
+          >
+            <img
+              class="h-4 w-4 cursor-pointer"
+              src="../assets/images/bell.svg"
+              alt="notifications"
+            />
+          </div>
+          <div
+            class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center"
+          >
+            <img
+              class="h-4 w-4 cursor-pointer"
+              src="../assets/images/user.svg"
+              alt="avatar"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
