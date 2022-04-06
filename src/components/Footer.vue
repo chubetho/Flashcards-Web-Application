@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bottom-0 left-0 bg-black text-white p-8 flex justify-around items-baseline"
+    class="bottom-0 left-0 text-left bg-black text-white p-8 grid grid-cols-2 gap-6 justify lg:grid-cols-4 lg:gap-2"
   >
     <div class="col">
       <h4 class="font-bold text-lg mb-4">Subject areas</h4>
