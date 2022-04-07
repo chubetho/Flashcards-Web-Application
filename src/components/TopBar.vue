@@ -3,15 +3,20 @@
   import { useRoute } from 'vue-router';
 
   const route = useRoute();
-  const menuOpen = ref(false);
+  const mobileMenuOpen = ref(false);
   const searchOpen = ref(false);
+  const avatarMenuOpen = ref(false);
 
-  const toggleMenu = () => {
-    menuOpen.value = !menuOpen.value;
+  const toggleMobildMenu = () => {
+    mobileMenuOpen.value = !mobileMenuOpen.value;
   };
 
   const toggleSearch = () => {
     searchOpen.value = !searchOpen.value;
+  };
+
+  const toggleAvatarMenu = () => {
+    avatarMenuOpen.value = !avatarMenuOpen.value;
   };
 </script>
 
@@ -26,7 +31,7 @@
           class="h-8 md:hidden cursor-pointer"
           src="../assets/images/menu.svg"
           alt="open menu"
-          @click="toggleMenu"
+          @click="toggleMobildMenu"
         />
         <div class="branch_logo font-bold text-xl mr-8 hidden md:block">
           <router-link :to="{ name: 'Home' }">
@@ -92,7 +97,7 @@
           </router-link>
         </div>
 
-        <div class="space-x-4 flex" v-else>
+        <div class="space-x-4 flex relative" v-else>
           <div
             class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center"
           >
@@ -102,14 +107,75 @@
               alt="notifications"
             />
           </div>
-          <div
-            class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center"
-          >
+          <button class="rounded-full w-7 h-7 overflow-hidden">
             <img
-              class="h-4 w-4 cursor-pointer"
-              src="../assets/images/user.svg"
+              class="w-full h-full object-cover"
+              src="../assets/images/avatar.jpg"
               alt="avatar"
+              @click="toggleAvatarMenu"
             />
+          </button>
+          <div
+            class="flex flex-col bg-white py-3 border-2 w-64 rounded-lg absolute top-8 -left-48"
+            v-if="avatarMenuOpen"
+          >
+            <div class="profile-info mx-4 mb-4 flex items-center space-x-4">
+              <div class="rounded-full w-7 h-7 overflow-hidden">
+                <img
+                  class="w-full h-full object-cover"
+                  src="../assets/images/avatar.jpg"
+                  alt="avatar"
+                />
+              </div>
+              <div class="text-sm">
+                <p>Phat Nguyen</p>
+                <p>admin@gmail.com</p>
+              </div>
+            </div>
+            <hr />
+            <div class="submenu flex flex-col mt-4">
+              <router-link
+                :to="{ name: 'Latest' }"
+                class="hover:text-white hover:bg-primary px-4 py-3"
+              >
+                Profile
+              </router-link>
+              <div
+                class="hover:text-white hover:bg-primary px-4 py-3 flex justify-between"
+              >
+                Night mode
+                <div class="relative w-10">
+                  <input
+                    type="checkbox"
+                    id="toggle"
+                    class="absolute block w-5 h-5 rounded-full bg-white border-2 appearance-none cursor-pointer checked:right-0 checked:bg-primary"
+                  />
+                  <label
+                    for="toggle"
+                    class="block overflow-hidden h-5 rounded-full bg-gray-200 cursor-pointer checked:bg-primary"
+                  ></label>
+                </div>
+              </div>
+              <router-link
+                :to="{ name: 'Latest' }"
+                class="hover:text-white hover:bg-primary px-4 py-3"
+              >
+                Setting
+              </router-link>
+              <router-link
+                :to="{ name: 'Latest' }"
+                class="hover:text-white hover:bg-primary px-4 py-3 mb-2"
+              >
+                Feedback
+              </router-link>
+              <hr />
+              <router-link
+                :to="{ name: 'Latest' }"
+                class="text-red-500 px-4 py-3 hover:bg-light mt-2"
+              >
+                Logout
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -117,13 +183,13 @@
   </div>
 
   <!-- Hamburger Menu -->
-  <div class="fixed h-screen w-full bg-white z-50 p-8" v-if="menuOpen">
+  <div class="fixed h-screen w-full bg-white z-50 p-8" v-if="mobileMenuOpen">
     <div class="cursor-pointer hover:rounded-full w-5 h-5">
       <img
         class="w-full h-auto object-cover"
         src="../assets/images/x-lg-svgrepo-com.svg"
         alt="close menu"
-        @click="toggleMenu"
+        @click="toggleMobildMenu"
       />
     </div>
     <div class="submenu mt-12 flex flex-col space-y-8">

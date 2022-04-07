@@ -1,14 +1,21 @@
 <script setup>
   import { ref } from 'vue';
+  import { userRegister } from '../composable/useRegister';
+  import { useRouter } from 'vue-router';
 
   const newUser = ref({});
-  const error = ref(null);
+  const router = useRouter();
+  const { error, isPending, signup } = userRegister();
 
-  const onSubmit = () => {
-    if (!newUser.agreeTerms) {
-      error.value = 'Please agree all statements in Terms';
-      return;
-    }
+  const onSubmit = async () => {
+    await signup(
+      newUser.value.email,
+      newUser.value.password,
+      newUser.value.name
+    );
+
+    if (error.value) return;
+    router.push({ name: 'Latest' });
   };
 </script>
 
@@ -124,9 +131,16 @@
 
           <button
             type="submit"
-            class="px-6 py-2.5 bg-primary text-white rounded-md hover:bg-primary_dark w-full"
+            class="px-6 py-2.5 bg-primary text-white rounded-md hover:bg-primary_dark w-full flex justify-center items-center"
+            :class="{
+              'cursor-not-allowed': isPending,
+              'bg-primary_dark': isPending,
+            }"
           >
-            Register
+            <div class="w-5 h-auto animate-spin" v-if="isPending">
+              <img src="../assets/images/reload_arrow.svg" alt="" />
+            </div>
+            <span v-else>Register</span>
           </button>
         </form>
 

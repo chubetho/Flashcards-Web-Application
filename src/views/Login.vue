@@ -1,14 +1,20 @@
 <script setup>
   import { ref } from 'vue';
+  import { useLogin } from '../composable/useLogin';
+  import { useRouter } from 'vue-router';
 
-  const newUser = ref({});
-  const error = ref(null);
+  const user = ref({});
 
-  const onSubmit = () => {
-    if (!newUser.agreeTerms) {
-      error.value = 'Please agree all statements in Terms';
-      return;
-    }
+  const { error, isPending, signin } = useLogin();
+
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    await signin(user.value.email, user.value.password);
+
+    if (error.value) return;
+
+    router.push({ name: 'Latest' });
   };
 </script>
 
@@ -54,7 +60,7 @@
                 type="email"
                 placeholder="Your Email"
                 id="email"
-                v-model="newUser.email"
+                v-model="user.email"
               />
             </div>
           </div>
@@ -74,7 +80,7 @@
                 type="password"
                 placeholder="Password"
                 id="password1"
-                v-model="newUser.password"
+                v-model="user.password"
               />
             </div>
           </div>
@@ -83,16 +89,21 @@
             <input
               type="checkbox"
               class="h-4 w-4 cursor-pointer accent-yellow"
-              v-model="newUser.agreeTerms"
             />
             <p class="ml-4">Remember me</p>
           </div>
 
           <button
             type="submit"
-            class="px-6 py-2.5 bg-primary text-white rounded-md hover:bg-primary_dark w-full"
+            class="px-6 py-2.5 bg-primary text-white rounded-md hover:bg-primary_dark w-full flex justify-center items-center"
+            :class="{
+              'cursor-not-allowed': isPending,
+            }"
           >
-            Login
+            <div class="w-5 h-auto animate-spin" v-if="isPending">
+              <img src="../assets/images/reload_arrow.svg" alt="" />
+            </div>
+            <span v-else>Login</span>
           </button>
         </form>
         <div class="mt-8 text-center md:hidden">
