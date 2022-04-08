@@ -1,4 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { getAuth } from '@firebase/auth';
+
+const requireAuthGuard = (from, to, next) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (!user) {
+    alert('You have to be member to use this feature');
+    next({ name: 'SignUp' });
+  } else next();
+};
 
 const routes = [
   {
@@ -23,11 +33,19 @@ const routes = [
     name: 'Latest',
     path: '/latest',
     component: () => import('../views/Latest.vue'),
+    beforeEnter: requireAuthGuard,
   },
   {
     name: 'CreateFlashcards',
     path: '/create-flashcards',
     component: () => import('../views/CreateFlashcards.vue'),
+    beforeEnter: requireAuthGuard,
+  },
+  {
+    name: 'Logout',
+    path: '/logout',
+    component: () => import('../views/Logout.vue'),
+    beforeEnter: requireAuthGuard,
   },
 ];
 

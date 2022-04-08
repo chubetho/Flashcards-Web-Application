@@ -1,21 +1,38 @@
 <script setup>
   import { ref } from 'vue';
-  import { userRegister } from '../composable/useRegister';
   import { useRouter } from 'vue-router';
+  import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
   const newUser = ref({});
+  const error = ref('');
+  const isPending = ref(false);
   const router = useRouter();
-  const { error, isPending, signup } = userRegister();
 
-  const onSubmit = async () => {
-    await signup(
+  const onSubmit = () => {
+    error.value = '';
+    isPending.value = true;
+
+    if (newUser.value.password !== newUser.value.password2) {
+      error.value = 'Passwords must match!. Try again!';
+      isPending.value = false;
+      return;
+    }
+
+    const auth = getAuth();
+    createUserWithEmailAndPassword(
+      auth,
       newUser.value.email,
-      newUser.value.password,
-      newUser.value.name
-    );
-
-    if (error.value) return;
-    router.push({ name: 'Latest' });
+      newUser.value.password
+    )
+      .then((userCredential) => {
+        console.log(userCredential);
+        isPending.value = false;
+        router.push({ name: 'Latest' });
+      })
+      .catch((err) => {
+        isPending.value = false;
+        error.value = err.message;
+      });
   };
 </script>
 
@@ -41,7 +58,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="name">
+              <label for="name" class="mr-3">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/user.svg"
@@ -61,7 +78,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="email">
+              <label for="email" class="mr-3">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/email.svg"
@@ -81,7 +98,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="password1">
+              <label for="password1" class="mr-3">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/lock-regular.svg"
@@ -93,6 +110,7 @@
                 type="password"
                 placeholder="Password"
                 id="password1"
+                autocomplete="on"
                 v-model="newUser.password"
               />
             </div>
@@ -101,7 +119,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="password2">
+              <label for="password2" class="mr-3">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/lock-light.svg"
@@ -113,6 +131,8 @@
                 type="password"
                 placeholder="Repeat your password"
                 id="password2"
+                autocomplete="on"
+                v-model="newUser.password2"
               />
             </div>
           </div>

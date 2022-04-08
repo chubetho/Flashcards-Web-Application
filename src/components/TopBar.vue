@@ -1,11 +1,13 @@
 <script setup>
   import { ref } from 'vue';
   import { useRoute } from 'vue-router';
+  import { getAuth } from '@firebase/auth';
 
   const route = useRoute();
   const mobileMenuOpen = ref(false);
   const searchOpen = ref(false);
   const avatarMenuOpen = ref(false);
+  const nightMode = ref(false);
 
   const toggleMobildMenu = () => {
     mobileMenuOpen.value = !mobileMenuOpen.value;
@@ -149,6 +151,7 @@
                     type="checkbox"
                     id="toggle"
                     class="absolute block w-5 h-5 rounded-full bg-white border-2 appearance-none cursor-pointer checked:right-0 checked:bg-primary"
+                    v-model="nightMode"
                   />
                   <label
                     for="toggle"
@@ -170,7 +173,7 @@
               </router-link>
               <hr />
               <router-link
-                :to="{ name: 'Latest' }"
+                :to="{ name: 'Logout' }"
                 class="text-red-500 px-4 py-3 hover:bg-light mt-2"
               >
                 Logout

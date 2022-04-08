@@ -1,20 +1,41 @@
 <script setup>
   import { ref } from 'vue';
-  import { useLogin } from '../composable/useLogin';
   import { useRouter } from 'vue-router';
+  import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
   const user = ref({});
-
-  const { error, isPending, signin } = useLogin();
-
+  const error = ref('');
+  const isPending = ref(false);
   const router = useRouter();
 
-  const onSubmit = async () => {
-    await signin(user.value.email, user.value.password);
+  const onSubmit = () => {
+    error.value = '';
+    isPending.value = true;
 
-    if (error.value) return;
-
-    router.push({ name: 'Latest' });
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, user.value.email, user.value.password)
+      .then((userCredential) => {
+        console.log(userCredential);
+        isPending.value = false;
+        router.push({ name: 'Latest' });
+      })
+      .catch((err) => {
+        isPending.value = false;
+        switch (err.code) {
+          case 'auth/invalid-email':
+            error.value = 'Invalid email';
+            break;
+          case 'auth/user-not-found':
+            error.value = 'No account with that email was found';
+            break;
+          case 'auth/wrong-password':
+            error.value = 'Incorrect password';
+            break;
+          default:
+            error.value = 'Email or password was incorrect';
+            break;
+        }
+      });
   };
 </script>
 
@@ -48,7 +69,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="email">
+              <label for="email" class="mr-3">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/email.svg"
@@ -68,7 +89,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="password1">
+              <label for="password1" class="mr-3">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/lock-regular.svg"
@@ -80,6 +101,7 @@
                 type="password"
                 placeholder="Password"
                 id="password1"
+                autocomplete="on"
                 v-model="user.password"
               />
             </div>
