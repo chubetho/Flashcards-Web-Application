@@ -1,21 +1,18 @@
 <script setup>
   import TopBar from '../components/TopBar.vue';
-  import AddCardForm from '../components/AddCardFrom.vue';
   import { ref } from 'vue';
-  import { collection, addDoc } from 'firebase/firestore';
-  import { db } from '../main';
+  import AddCardForm from '../components/AddCardFrom.vue';
+  import useCollection from '../composable/useCollection';
+  import { useUser } from '../composable/useUser';
 
   const scrollPosition = ref(0);
   window.addEventListener(
     'scroll',
     () => (scrollPosition.value = window.scrollY)
   );
-
-  const set = ref({
-    title: '',
-    description: '',
-    cards: [],
-  });
+  const { getUser } = useUser();
+  const user = getUser();
+  const { addRecord, error } = useCollection('flashcards');
 
   const cards = ref([
     {
@@ -23,6 +20,13 @@
       definition: '',
     },
   ]);
+
+  const set = ref({
+    title: '',
+    description: '',
+    cards: cards.value,
+    userId: user.value.uid,
+  });
 
   const onAddCard = () => {
     cards.value.push({
@@ -32,16 +36,7 @@
   };
 
   const onSubmit = async () => {
-    try {
-      const docRef = await addDoc(collection(db, 'flashcards'), {
-        title: set.value.title,
-        description: set.value.description,
-        cards: set.value.cards,
-      });
-      console.log('Document written with ID: ', docRef.id);
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+    await addRecord(set.value);
   };
 </script>
 
@@ -85,15 +80,16 @@
       </div>
       <div class="row">
         <select
-          class="appearance-none w-full px-3 py-1 rounded-sm bg-white border border-solid border-gray-300 focus:bg-white focus:border-primary focus:outline-none"
+          class="w-full px-3 py-1 rounded-sm bg-white border border-solid border-gray-300 focus:bg-white focus:border-primary focus:outline-none"
           v-model="set.type"
         >
-          <option selected disabled>Select subject</option>
+          <option value="#" selected disabled>Select subject</option>
           <option value="maths">Maths</option>
           <option value="sciences">Sciences</option>
           <option value="languages">Languages</option>
           <option value="other">Other</option>
         </select>
+        <label class="uppercase text-xs text-gray-500"> Select subject </label>
       </div>
     </form>
     <div class="add-cards space-y-6">

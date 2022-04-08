@@ -4,8 +4,10 @@ import { ref } from 'vue';
 const auth = getAuth();
 const user = ref(auth.currentUser);
 
-auth.onAuthStateChanged(auth, (usr) => {
-  if (usr) user.value = user;
+onAuthStateChanged(auth, (usr) => {
+  if (usr) {
+    user.value = usr;
+  }
 });
 
 const getUser = () => {

@@ -1,7 +1,11 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+  } from 'firebase/auth';
 
   const newUser = ref({});
   const error = ref('');
@@ -24,8 +28,8 @@
       newUser.value.email,
       newUser.value.password
     )
-      .then((userCredential) => {
-        console.log(userCredential);
+      .then(() => {
+        updateProfile(auth.currentUser, { displayName: newUser.value.name });
         isPending.value = false;
         router.push({ name: 'Latest' });
       })

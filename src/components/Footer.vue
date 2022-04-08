@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bottom-0 left-0 text-left bg-black text-white p-8 grid grid-cols-2 gap-6 justify lg:grid-cols-4 lg:gap-2"
+    class="bottom-0 left-0 text-left bg-black text-white p-8 grid grid-cols-2 gap-6 justify lg:grid-cols-4 lg:gap-2 2xl:px-16 lg:px-12"
   >
     <div class="col">
       <h4 class="font-bold text-lg mb-4">Subject areas</h4>

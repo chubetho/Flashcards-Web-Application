@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pt-20 pb-12 px-3 bg-primary_dark flex items-center flex-col md:flex-row md:space-x-20"
+    class="pt-20 pb-12 px-3 bg-primary_dark flex items-center flex-col md:flex-row md:space-x-20 2xl:px-16 2xl:pt-28 xl:px-12 xl:pt-24 md:px-8"
   >
     <div class="left tracking-wide flex-1 flex flex-col">
       <h1 class="text-4xl font-extrabold text-center text-white">

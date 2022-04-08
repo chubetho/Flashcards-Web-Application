@@ -8,8 +8,8 @@
     >
       <div class="top flex items-center justify-between">
         <div class="text-left tracking-wide">
-          <h3 class="font-bold text-lg">Flashcard's Name</h3>
-          <p class="text-sm text-gray-400 font-bold">123 terms</p>
+          <h3 class="font-bold text-lg lg:text-base">Flashcard's Name</h3>
+          <p class="text-sm text-gray-400 font-bold lg:text-xs">123 terms</p>
         </div>
         <div class="image w-12 h-12">
           <img src="../assets/logo.png" alt="" />

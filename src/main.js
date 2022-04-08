@@ -28,7 +28,6 @@ onAuthStateChanged(auth, () => {
     app.mount('#app');
   }
 });
-
 const db = getFirestore(firebaseApp);
 
 export { db };
