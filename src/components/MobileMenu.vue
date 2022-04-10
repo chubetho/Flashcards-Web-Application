@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed h-screen w-full bg-light z-50 p-8">
+  <div class="fixed h-screen w-full bg-light z-20 px-8 py-4">
     <div class="cursor-pointer hover:rounded-full w-5 h-5">
       <img
         class="w-full h-auto object-cover"

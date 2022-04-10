@@ -9,6 +9,8 @@ module.exports = {
         light: '#f6f7fb',
         white: '#feffff',
         yellow: '#FFCC00',
+        gray: '#586380',
+        overlay: '#b1b3b8',
       },
     },
   },

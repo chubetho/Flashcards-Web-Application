@@ -10,7 +10,7 @@
   >
     <div class="row lg:flex-1">
       <input
-        class="w-full focus:outline-none border-b-4 focus:border-primary mb-1 py-1 placeholder-gray-400 text-sm lg:text-base"
+        class="w-full focus:outline-none border-b-4 border-slate-400 focus:border-primary mb-1 py-1 placeholder-gray-400 text-sm lg:text-base"
         type="text"
         placeholder="Enter term"
       />
@@ -21,7 +21,7 @@
     <div class="row flex justify-between lg:flex-1 lg:items-center">
       <div class="definition flex-1">
         <input
-          class="w-full focus:outline-none border-b-4 focus:border-primary mb-1 py-1 placeholder-gray-400 text-sm lg:text-base"
+          class="w-full focus:outline-none border-b-4 border-slate-400 focus:border-primary mb-1 py-1 placeholder-gray-400 text-sm lg:text-base"
           type="text"
           placeholder="Enter definition"
         />
@@ -42,7 +42,7 @@
     </div>
 
     <div
-      class="w-4 h-auto pt-2 cursor-pointer self-center flex-shrink-0"
+      class="w-4 h-auto pt-2 cursor-pointer self-center flex-shrink-0 lg:w-6"
       @click="onDeleteCard"
     >
       <img src="../assets/images/trash.svg" alt="" />

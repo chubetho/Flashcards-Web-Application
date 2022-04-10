@@ -42,23 +42,23 @@
     <form class="space-y-4 mb-12">
       <div class="row">
         <input
-          class="w-full bg-light focus:outline-none border-b-4 focus:border-primary mb-1 py-1 placeholder-gray-400"
+          class="w-full bg-light focus:outline-none border-b-4 border-slate-400 focus:border-primary mb-1 py-1 placeholder-gray-400 lg:text-lg"
           type="text"
           placeholder="Add a title ..."
           v-model="set.title"
         />
-        <label for="title" class="uppercase text-xs text-gray-500">
+        <label for="title" class="uppercase text-xs text-gray-500 lg:text-base">
           enter a title to create set
         </label>
       </div>
       <div class="row">
         <input
-          class="w-full bg-light focus:outline-none border-b-4 focus:border-primary mb-1 py-1 placeholder-gray-400"
+          class="w-full bg-light focus:outline-none border-b-4 border-slate-400 focus:border-primary mb-1 py-1 placeholder-gray-400 lg:text-lg"
           type="text"
           placeholder="Add a description ..."
           v-model="set.description"
         />
-        <label for="title" class="uppercase text-xs text-gray-500">
+        <label for="title" class="uppercase text-xs text-gray-500 lg:text-base">
           Description
         </label>
       </div>

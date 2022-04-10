@@ -62,7 +62,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="name" class="mr-3">
+              <label for="name" class="mr-3 flex-shrink-0">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/user.svg"
@@ -82,7 +82,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="email" class="mr-3">
+              <label for="email" class="mr-3 flex-shrink-0">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/email.svg"
@@ -102,7 +102,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="password1" class="mr-3">
+              <label for="password1" class="mr-3 flex-shrink-0">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/lock-regular.svg"
@@ -123,7 +123,7 @@
             <div
               class="input flex border-b-2 border-gray-400 py-2 items-center"
             >
-              <label for="password2" class="mr-3">
+              <label for="password2" class="mr-3 flex-shrink-0">
                 <img
                   class="w-3 h-auto"
                   src="../assets/images/lock-light.svg"

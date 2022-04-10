@@ -10,7 +10,7 @@
       />
       <div class="text">
         <h3 class="uppercase text-md font-semibold xl:text-xl">
-          over 1 million
+          over 1 billion
         </h3>
         <p class="font-light xl:text-lg">flashcards created</p>
       </div>

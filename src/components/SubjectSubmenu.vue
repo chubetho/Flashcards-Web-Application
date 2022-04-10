@@ -9,14 +9,22 @@
   <div v-show="selectedTab.title == title">
     <div class="rows px-3 mt-8">
       <div class="row mb-6">
-        <p class="text-sm font-semibold pb-5 border-b-2 border-gray-300">
+        <p
+          class="text-sm pb-6 border-b border-gray font-semibold hover:font-bold cursor-pointer text-gray"
+        >
           View all
         </p>
       </div>
       <div class="others space-y-6">
-        <div class="row">
-          <p class="text-sm font-semibold pb-5 border-b-2 border-gray-300">
-            View all
+        <div
+          class="row"
+          v-for="(sub, index) in selectedTab.subjects"
+          :key="index"
+        >
+          <p
+            class="text-sm pb-6 font-semibold border-b border-gray hover:font-bold cursor-pointer text-gray"
+          >
+            {{ sub.name }}
           </p>
         </div>
       </div>

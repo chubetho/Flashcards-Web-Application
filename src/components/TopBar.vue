@@ -3,7 +3,6 @@
   import SubjectMenu from './SubjectMenu.vue';
   import SubjectSubMenu from './SubjectSubmenu.vue';
   import { SUBJECTS } from '../constants/constants';
-
   import { ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { useUser } from '../composable/useUser';
@@ -16,6 +15,10 @@
   const nightMode = ref(false);
   const { getUser } = useUser();
   const user = getUser();
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 1024) subjectMenuIsOpen.value = false;
+  });
 
   const toggleMobileMenu = () => {
     mobileMenuIsOpen.value = !mobileMenuIsOpen.value;
@@ -30,17 +33,27 @@
   const toggleAvatarMenu = () => {
     avatarMenuOpen.value = !avatarMenuOpen.value;
   };
+
+  const getSubjects = (title) => {
+    const subjects = SUBJECTS.filter((subject) => subject.title === title);
+    return subjects[0].subs;
+  };
+
+  const exitMenu = () => {
+    mobileMenuIsOpen.value = false;
+    subjectMenuIsOpen.value = false;
+  };
 </script>
 
 <template>
   <div
-    class="topbar fixed h-12 flex justify-between bg-white items-center w-full px-3 shadow-md 2xl:px-16 z-50 lg:px-12 md:px-8"
+    class="topbar fixed h-12 flex justify-between bg-white items-center w-full px-3 shadow-md 2xl:px-16 z-10 lg:px-12 md:px-8"
   >
     <!-- Left side of topbar -->
     <div class="left">
       <div class="menu flex">
         <img
-          class="h-14 w-14 md:hidden cursor-pointer"
+          class="h-8 w-8 md:hidden cursor-pointer"
           src="../assets/images/menu.svg"
           alt="open menu"
           @click="toggleMobileMenu"
@@ -48,7 +61,7 @@
         <div
           class="branch_logo font-bold text-xl mr-8 md:mr-4 xl:mr-12 hidden md:block xl:text-2xl"
         >
-          <router-link :to="{ name: 'Home' }">
+          <router-link :to="{ name: user ? 'Latest' : 'Home' }">
             Flash<span class="text-primary">Cards</span>
           </router-link>
         </div>
@@ -205,11 +218,43 @@
     @onCloseMenu="toggleMobileMenu"
     @onOpenSubjectMenu="toggleSubjectMenu"
   />
-  <SubjectMenu v-if="subjectMenuIsOpen" @onCloseSubjectMenu="toggleSubjectMenu">
-    <SubjectSubMenu title="Arts and Humanities" img="art"></SubjectSubMenu>
-    <SubjectSubMenu title="Math" img="math"></SubjectSubMenu>
-    <SubjectSubMenu title="Science" img="science"> </SubjectSubMenu>
-    <SubjectSubMenu title="Languages" img="language"> </SubjectSubMenu>
-    <SubjectSubMenu title="Other" img="other"></SubjectSubMenu>
+  <SubjectMenu
+    v-if="subjectMenuIsOpen"
+    @onCloseSubjectMenu="toggleSubjectMenu"
+    @onExitMenu="exitMenu"
+  >
+    <SubjectSubMenu
+      title="Arts and Humanities"
+      img="art"
+      :subjects="getSubjects('Arts and Humanities')"
+    ></SubjectSubMenu>
+    <SubjectSubMenu
+      title="Math"
+      img="math"
+      :subjects="getSubjects('Math')"
+    ></SubjectSubMenu>
+    <SubjectSubMenu
+      title="Science"
+      img="science"
+      :subjects="getSubjects('Science')"
+    >
+    </SubjectSubMenu>
+    <SubjectSubMenu
+      title="Languagues"
+      img="language"
+      :subjects="getSubjects('Languagues')"
+    >
+    </SubjectSubMenu>
+    <SubjectSubMenu
+      title="Others"
+      img="other"
+      :subjects="getSubjects('Others')"
+    ></SubjectSubMenu>
   </SubjectMenu>
+
+  <!-- Overlay -->
+  <div
+    class="fixed overlay h-screen w-full bg-overlay opacity-70 z-20"
+    v-if="subjectMenuIsOpen"
+  ></div>
 </template>

@@ -92,7 +92,7 @@ export const SUBJECTS = [
     ],
   },
   {
-    title: 'Other',
+    title: 'Others',
     subs: [
       {
         name: 'Sports',
