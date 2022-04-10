@@ -2,30 +2,16 @@
   import TopBar from '../components/TopBar.vue';
   import { ref } from 'vue';
   import AddCardForm from '../components/AddCardFrom.vue';
-  import useCollection from '../composable/useCollection';
-  import { useUser } from '../composable/useUser';
 
   const scrollPosition = ref(0);
   window.addEventListener(
     'scroll',
     () => (scrollPosition.value = window.scrollY)
   );
-  const { getUser } = useUser();
-  const user = getUser();
-  const { addRecord, error } = useCollection('flashcards');
-
-  const cards = ref([
-    {
-      term: '',
-      definition: '',
-    },
-  ]);
 
   const set = ref({
     title: '',
     description: '',
-    cards: cards.value,
-    userId: user.value.uid,
   });
 
   const onAddCard = () => {
@@ -35,26 +21,24 @@
     });
   };
 
-  const onSubmit = async () => {
-    await addRecord(set.value);
-  };
+  const onSubmit = () => {};
 </script>
 
 <template>
   <TopBar v-if="!scrollPosition" />
   <div
-    class="top-bar flex justify-between items-center h-12 pt-20 mb-20 px-3 sticky top-0 bg-light z-20"
+    class="top-bar flex justify-between items-center h-12 pt-20 mb-20 px-3 sticky top-0 bg-light z-20 2xl:px-16 2xl:h-16 xl:h-14 lg:px-12 md:px-8"
     :class="{ 'shadow-xl': scrollPosition, 'pt-0': scrollPosition }"
   >
-    <h1 class="font-bold">Create a new study set</h1>
+    <h1 class="font-bold lg:text-xl md:text-lg">Create a new study set</h1>
     <button
-      class="px-2 py-1 text-white bg-primary text-sm rounded-sm"
+      class="px-2 py-1 text-white bg-primary text-sm rounded-sm lg:text-lg md:text-base"
       @click="onSubmit"
     >
       Create
     </button>
   </div>
-  <div class="px-3">
+  <div class="px-3 2xl:px-16 lg:px-12 md:px-8">
     <form class="space-y-4 mb-12">
       <div class="row">
         <input
@@ -83,9 +67,9 @@
           class="w-full px-3 py-1 rounded-sm bg-white border border-solid border-gray-300 focus:bg-white focus:border-primary focus:outline-none"
           v-model="set.type"
         >
-          <option value="#" selected disabled>Select subject</option>
+          <option value="arts_and_humanities">Arts and Humanities</option>
           <option value="maths">Maths</option>
-          <option value="sciences">Sciences</option>
+          <option value="science">Science</option>
           <option value="languages">Languages</option>
           <option value="other">Other</option>
         </select>
@@ -93,14 +77,13 @@
       </div>
     </form>
     <div class="add-cards space-y-6">
-      <AddCardForm v-for="(card, index) in cards" :key="index" />
+      <AddCardForm />
     </div>
 
-    <div class="bg-white mt-4">
+    <div class="bg-white my-4" @click="onAddCard">
       <button class="w-full py-3">
         <span
           class="border-b-4 border-primary uppercase font-bold text-xs tracking-widest py-1"
-          @click="onAddCard"
         >
           + add card
         </span>

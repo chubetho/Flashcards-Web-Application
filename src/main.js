@@ -4,9 +4,6 @@ import './assets/tailwind.css';
 import router from './router/index';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from '@firebase/auth';
-
-let app;
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAfGoTDiSExc1--xabUhjK9u6G7Gyh1yA4',
@@ -19,15 +16,11 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth();
 
-onAuthStateChanged(auth, () => {
-  if (!app) {
-    app = createApp(App);
-    app.use(router);
-    app.mount('#app');
-  }
-});
+const app = createApp(App);
+app.use(router);
+app.mount('#app');
+
 const db = getFirestore(firebaseApp);
 
 export { db };

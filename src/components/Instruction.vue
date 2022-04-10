@@ -7,15 +7,18 @@
   <div
     class="bg-light px-3 py-12 lg:flex lg:flex-col 2xl:px-16 xl:px-12 md:px-8"
   >
-    <div class="top tracking-wide text-left md:text-center mb-12">
+    <div
+      class="top tracking-wide text-left md:text-center mb-12 flex flex-col justify-center items-center"
+    >
       <h2 class="font-extrabold text-3xl">How to make flashcards</h2>
-      <p class="mt-12 text-lg">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-        voluptatem asperiores iure, eligendi omnis reprehenderit unde. Enim
-        earum, corrupti assumenda quos accusamus. Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Similique voluptatem asperiores iure,
-        eligendi omnis reprehenderit unde. Enim earum, corrupti assumenda quos
-        accusamus.
+      <p class="mt-12 text-lg lg:w-4/5">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam illo
+        nemo quod officia perferendis fugit, ducimus omnis est excepturi
+        asperiores quisquam, recusandae necessitatibus sint atque inventore?
+        Repudiandae provident officia sunt. Lorem ipsum dolor sit amet
+        consectetur adipisicing elit. Amet, officia dicta nam est quis et vitae
+        error provident porro. Vel asperiores harum iure exercitationem repellat
+        consectetur aut vero sed dignissimos?
       </p>
     </div>
 
@@ -63,15 +66,18 @@
 
   <!-- Explore online flashcards -->
   <div class="bg-light px-3 py-12 flex flex-col 2xl:px-16 lg:px-12 md:px-8">
-    <div class="top tracking-wide text-left mb-12 md:text-center">
+    <div
+      class="top tracking-wide text-left mb-12 md:text-center flex flex-col justify-center items-center"
+    >
       <h2 class="font-extrabold text-3xl">To lazy to make a flashcards?</h2>
-      <p class="mt-12 text-lg">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-        voluptatem asperiores iure, eligendi omnis reprehenderit unde. Enim
-        earum, corrupti assumenda quos accusamus. Lorem ipsum dolor sit amet
-        consectetur adipisicing elit. Similique voluptatem asperiores iure,
-        eligendi omnis reprehenderit unde. Enim earum, corrupti assumenda quos
-        accusamus.
+      <p class="mt-12 text-lg lg:w-4/5">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam qui
+        debitis quibusdam quasi neque est, ipsa aliquid obcaecati dolores, nihil
+        molestias voluptatibus eveniet similique quos deleniti. Magni provident
+        atque dolorem. Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        Aperiam, eum dolorem? Ipsam, ullam! Eveniet eaque maxime mollitia
+        laborum, sunt, beatae unde cupiditate temporibus recusandae pariatur
+        nobis aliquid. Repellendus, fugiat quibusdam?
       </p>
 
       <h2 class="text-xl font-extrabold mt-16">Then find one below</h2>

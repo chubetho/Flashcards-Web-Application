@@ -1,23 +1,31 @@
 <script setup>
+  import MobileMenu from './MobileMenu.vue';
+  import SubjectMenu from './SubjectMenu.vue';
+  import SubjectSubMenu from './SubjectSubmenu.vue';
+  import { SUBJECTS } from '../constants/constants';
+
   import { ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { useUser } from '../composable/useUser';
 
   const route = useRoute();
-  const mobileMenuOpen = ref(false);
+  const mobileMenuIsOpen = ref(false);
+  const subjectMenuIsOpen = ref(false);
   const searchOpen = ref(false);
   const avatarMenuOpen = ref(false);
   const nightMode = ref(false);
   const { getUser } = useUser();
   const user = getUser();
 
-  const toggleMobildMenu = () => {
-    mobileMenuOpen.value = !mobileMenuOpen.value;
+  const toggleMobileMenu = () => {
+    mobileMenuIsOpen.value = !mobileMenuIsOpen.value;
   };
 
-  const toggleSearch = () => {
-    searchOpen.value = !searchOpen.value;
+  const toggleSubjectMenu = () => {
+    subjectMenuIsOpen.value = !subjectMenuIsOpen.value;
   };
+
+  const toggleSearch = () => {};
 
   const toggleAvatarMenu = () => {
     avatarMenuOpen.value = !avatarMenuOpen.value;
@@ -26,19 +34,19 @@
 
 <template>
   <div
-    class="topbar fixed h-12 flex justify-between bg-white items-center w-full px-3 shadow-md 2xl:px-16 z-50 2xl:h-16 xl:h-14 lg:px-12 md:px-8"
+    class="topbar fixed h-12 flex justify-between bg-white items-center w-full px-3 shadow-md 2xl:px-16 z-50 lg:px-12 md:px-8"
   >
     <!-- Left side of topbar -->
     <div class="left">
       <div class="menu flex">
         <img
-          class="h-8 md:hidden cursor-pointer"
+          class="h-14 w-14 md:hidden cursor-pointer"
           src="../assets/images/menu.svg"
           alt="open menu"
-          @click="toggleMobildMenu"
+          @click="toggleMobileMenu"
         />
         <div
-          class="branch_logo font-bold text-xl mr-8 md:mr-4 xl:mr-12 hidden md:block 2xl:text-3xl xl:text-2xl"
+          class="branch_logo font-bold text-xl mr-8 md:mr-4 xl:mr-12 hidden md:block xl:text-2xl"
         >
           <router-link :to="{ name: 'Home' }">
             Flash<span class="text-primary">Cards</span>
@@ -46,7 +54,7 @@
         </div>
         <div class="submenu hidden md:flex md:items-center">
           <div
-            class="flex space-x-4 text-sm font-semibold lg:text-base lg:space-x-8 2xl:text-lg 2xl:space-x-12"
+            class="flex space-x-4 text-sm font-semibold lg:text-base lg:space-x-8 2xl:text-base 2xl:space-x-12"
           >
             <router-link
               :to="{ name: 'Latest' }"
@@ -54,12 +62,12 @@
             >
               Start
             </router-link>
-            <router-link
-              :to="{ name: 'Home' }"
-              class="hover:font-bold hover:text-primary_dark"
+            <div
+              class="hover:font-bold hover:text-primary_dark cursor-pointer"
+              @click="toggleSubjectMenu"
             >
               Subject areas
-            </router-link>
+            </div>
             <router-link
               :to="{ name: 'CreateFlashcards' }"
               class="hover:font-bold hover:text-primary_dark"
@@ -74,13 +82,13 @@
     <!-- Right side of topbar -->
     <div class="right flex items-center justify-end space-x-4">
       <div
-        class="search border border-black rounded-full w-7 h-7 flex justify-center xl:justify-end items-center xl:rounded-lg 2xl:w-80 xl:w-52 2xl:h-10 xl:h-8"
+        class="search border border-black rounded-full w-7 h-7 flex justify-center xl:justify-end items-center xl:rounded-lg 2xl:w-80 xl:w-52 2xl:h-8 xl:h-8"
         :class="{ 'w-80': searchOpen, 'justify-end': searchOpen }"
       >
         <input
           type="text"
           placeholder="Search for flashcards"
-          class="font-semibold xl:focus:outline-none xl:w-5/6 2xl:text-base xl:block hidden"
+          class="font-semibold xl:focus:outline-none xl:w-5/6 2xl:text-base xl:block xl:text-sm hidden"
         />
         <img
           class="h-5 w-5 2xl:h-6 2xl:w-6 2xl:mr-3 xl:mr-2 cursor-pointer"
@@ -93,13 +101,13 @@
         <div class="space-x-4 lg:space-x-4" v-if="route.meta.type === 'auth'">
           <router-link
             :to="{ name: 'Login' }"
-            class="bg-white px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold hover:bg-light hover:text-primary_dark xl:text-lg 2xl:px-4 2xl:py-2"
+            class="bg-white px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold hover:bg-light hover:text-primary_dark"
           >
             Login
           </router-link>
           <router-link
             :to="{ name: 'SignUp' }"
-            class="bg-yellow px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold shadow-md text-black hover:bg-primary_dark active:bg-primary_dark xl:text-lg 2xl:px-4 2xl:py-2"
+            class="bg-yellow px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold shadow-md text-black hover:bg-primary_dark active:bg-primary_dark"
           >
             Sign up
           </router-link>
@@ -107,7 +115,7 @@
 
         <div class="space-x-4 flex relative" v-else>
           <div
-            class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center 2xl:w-9 2xl:h-9"
+            class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center 2xl:w-8 2xl:h-8"
           >
             <img
               class="h-4 w-4 cursor-pointer"
@@ -115,7 +123,7 @@
               alt="notifications"
             />
           </div>
-          <button class="rounded-full w-7 h-7 overflow-hidden 2xl:w-9 2xl:h-9">
+          <button class="rounded-full w-7 h-7 overflow-hidden 2xl:w-8 2xl:h-8">
             <img
               class="w-full h-full object-cover"
               src="../assets/images/avatar.jpg"
@@ -191,32 +199,17 @@
     </div>
   </div>
 
-  <!-- Hamburger Menu -->
-  <div class="fixed h-screen w-full bg-white z-50 p-8" v-if="mobileMenuOpen">
-    <div class="cursor-pointer hover:rounded-full w-5 h-5">
-      <img
-        class="w-full h-auto object-cover"
-        src="../assets/images/x-lg-svgrepo-com.svg"
-        alt="close menu"
-        @click="toggleMobildMenu"
-      />
-    </div>
-    <div class="submenu mt-12 flex flex-col space-y-8">
-      <router-link
-        class="font-semibold hover:font-bold hover:text-primary active:text-primary"
-        :to="{ name: 'Home' }"
-        >Home</router-link
-      >
-      <router-link
-        class="font-semibold hover:font-bold hover:text-primary active:text-primary"
-        :to="{ name: 'Home' }"
-        >Subject area</router-link
-      >
-      <router-link
-        class="font-semibold hover:font-bold hover:text-primary active:text-primary"
-        :to="{ name: 'Home' }"
-        >Entertainment</router-link
-      >
-    </div>
-  </div>
+  <!-- Left Menu -->
+  <MobileMenu
+    v-if="mobileMenuIsOpen"
+    @onCloseMenu="toggleMobileMenu"
+    @onOpenSubjectMenu="toggleSubjectMenu"
+  />
+  <SubjectMenu v-if="subjectMenuIsOpen" @onCloseSubjectMenu="toggleSubjectMenu">
+    <SubjectSubMenu title="Arts and Humanities" img="art"></SubjectSubMenu>
+    <SubjectSubMenu title="Math" img="math"></SubjectSubMenu>
+    <SubjectSubMenu title="Science" img="science"> </SubjectSubMenu>
+    <SubjectSubMenu title="Languages" img="language"> </SubjectSubMenu>
+    <SubjectSubMenu title="Other" img="other"></SubjectSubMenu>
+  </SubjectMenu>
 </template>

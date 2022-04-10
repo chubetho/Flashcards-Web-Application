@@ -4,7 +4,7 @@
   >
     <router-link
       :to="{ name: 'Home' }"
-      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-105"
+      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-[1.01]"
     >
       <div class="top flex items-center justify-between">
         <div class="text-left tracking-wide">
@@ -23,7 +23,7 @@
     </router-link>
     <router-link
       :to="{ name: 'Home' }"
-      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-105"
+      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-[1.01]"
     >
       <div class="top flex items-center justify-between">
         <div class="text-left tracking-wide">
@@ -42,7 +42,7 @@
     </router-link>
     <router-link
       :to="{ name: 'Home' }"
-      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-105"
+      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-[1.01]"
     >
       <div class="top flex items-center justify-between">
         <div class="text-left tracking-wide">
@@ -61,7 +61,7 @@
     </router-link>
     <router-link
       :to="{ name: 'Home' }"
-      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-105"
+      class="row bg-white p-4 rounded-md shadow-lg cursor-pointer hover:scale-[1.01]"
     >
       <div class="top flex items-center justify-between">
         <div class="text-left tracking-wide">

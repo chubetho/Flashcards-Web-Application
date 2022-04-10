@@ -1,13 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { getAuth } from '@firebase/auth';
+import { getAuth, onAuthStateChanged } from '@firebase/auth';
 
-const requireAuthGuard = (from, to, next) => {
+const getCurrentUser = () => {
   const auth = getAuth();
-  const user = auth.currentUser;
-  if (!user) {
-    alert('You have to be member to use this feature');
-    next({ name: 'SignUp' });
-  } else next();
+  return new Promise((resolve, reject) => {
+    const removeListener = onAuthStateChanged(
+      auth,
+      (user) => {
+        removeListener();
+        resolve(user);
+      },
+      reject
+    );
+  });
 };
 
 const routes = [
@@ -33,25 +38,41 @@ const routes = [
     name: 'Latest',
     path: '/latest',
     component: () => import('../views/Latest.vue'),
-    beforeEnter: requireAuthGuard,
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     name: 'CreateFlashcards',
     path: '/create-flashcards',
     component: () => import('../views/CreateFlashcards.vue'),
-    beforeEnter: requireAuthGuard,
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     name: 'Logout',
     path: '/logout',
     component: () => import('../views/Logout.vue'),
-    beforeEnter: requireAuthGuard,
+    meta: {
+      requireAuth: true,
+    },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requireAuth)) {
+    if (await getCurrentUser()) next();
+    else {
+      alert('You have to login to access this feature');
+      next({ name: 'Login' });
+    }
+  } else next();
 });
 
 export default router;
