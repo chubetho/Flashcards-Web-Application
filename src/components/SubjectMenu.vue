@@ -68,9 +68,12 @@
     </div>
 
     <!-- submenu -->
-    <div class="submenu px-3 py-6 space-y-4" v-show="!subMenuIsOpen">
+    <div
+      class="submenu px-3 py-6 space-y-4 transition-all"
+      v-show="!subMenuIsOpen"
+    >
       <div
-        class="row flex bg-white py-4 px-6 rounded-lg shadow-md items-center hover:scale-[1.01] cursor-pointer hover:font-semibold lg:rounded-none lg:hover:scale-100 lg:cursor-default lg:hover:font-normal lg:shadow-none lg:border-b-2 border-slate-200 lg:items-center"
+        class="row flex bg-white py-4 px-6 rounded-lg shadow-md items-center hover:scale-[1.01] cursor-pointer hover:font-semibold lg:rounded-none lg:hover:scale-100 lg:cursor-default lg:hover:font-normal lg:shadow-none lg:border-b-2 border-slate-200 lg:items-center lg:min-h-[137px]"
         v-for="(tab, index) in tabs"
         :key="index"
         @click="handleClickTab(tab)"

@@ -9,7 +9,7 @@ const useCollection = (collectionName) => {
   const addRecord = async (record) => {
     try {
       await addDoc(collection(db, collectionName), record);
-      console.log('record created');
+      console.log('new set is created');
     } catch (e) {
       error.value = e.message;
     }

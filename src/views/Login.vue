@@ -15,7 +15,6 @@
     const auth = getAuth();
     signInWithEmailAndPassword(auth, user.value.email, user.value.password)
       .then((userCredential) => {
-        console.log(userCredential);
         isPending.value = false;
         router.push({ name: 'Latest' });
       })

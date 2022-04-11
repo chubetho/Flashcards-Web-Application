@@ -1,7 +1,10 @@
 <script setup>
   import TopBar from '../components/TopBar.vue';
-  import { ref } from 'vue';
+  import { ref, reactive } from 'vue';
   import AddCardForm from '../components/AddCardFrom.vue';
+  import useCollection from '../composable/useCollection';
+  import { useUser } from '../composable/useUser';
+  import { uid } from 'uid';
 
   const scrollPosition = ref(0);
   window.addEventListener(
@@ -9,30 +12,67 @@
     () => (scrollPosition.value = window.scrollY)
   );
 
-  const set = ref({
+  const { getUser } = useUser();
+  const user = getUser();
+
+  //These will be summitted
+  const set = reactive({
     title: '',
     description: '',
+    type: '',
+    cards: [
+      {
+        term: '',
+        definition: '',
+        uid: uid(8),
+      },
+    ],
+    userId: user.value.uid,
+    userName: user.value.displayName,
   });
 
+  const { addRecord, error } = useCollection('flashcards');
+
   const onAddCard = () => {
-    cards.value.push({
+    set.cards.push({
       term: '',
       definition: '',
+      uid: uid(8),
     });
   };
 
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    await addRecord(set);
+    if (error.value) {
+      console.log(error);
+      return;
+    }
+  };
+  const editCard = (cardId, newCard) => {
+    set.cards = set.cards.map((c) =>
+      c.uid === cardId
+        ? { ...c, term: newCard.term, definition: newCard.definition }
+        : c
+    );
+    console.log(set.cards);
+  };
+
+  const deleteCard = (cardId) => {
+    set.cards = set.cards.filter((c) => c.uid !== cardId);
+  };
 </script>
 
 <template>
   <TopBar v-if="!scrollPosition" />
   <div
-    class="top-bar flex justify-between items-center h-12 pt-20 mb-20 px-3 sticky top-0 bg-light z-20 2xl:px-16 2xl:h-16 xl:h-14 lg:px-12 md:px-8"
+    class="top-bar flex justify-between items-center h-12 pt-20 mb-20 px-3 sticky top-0 bg-light 2xl:px-16 lg:px-12 md:px-8"
     :class="{ 'shadow-xl': scrollPosition, 'pt-0': scrollPosition }"
   >
-    <h1 class="font-bold lg:text-xl md:text-lg">Create a new study set</h1>
+    <h1 class="font-bold md:text-lg lg:text-xl xl:text-3xl">
+      Create a new study set
+    </h1>
     <button
-      class="px-2 py-1 text-white bg-primary text-sm rounded-sm lg:text-lg md:text-base"
+      class="px-2 py-1 text-white bg-primary text-sm rounded-sm md:text-base lg:text-lg xl:text-xl xl:px-6 xl:py-1.5"
       @click="onSubmit"
     >
       Create
@@ -77,7 +117,13 @@
       </div>
     </form>
     <div class="add-cards space-y-6">
-      <AddCardForm />
+      <AddCardForm
+        v-for="(card, index) in set.cards"
+        :card="card"
+        :key="index"
+        @onDeleteCard="deleteCard"
+        @onEditCard="editCard"
+      />
     </div>
 
     <div class="bg-white my-4" @click="onAddCard">

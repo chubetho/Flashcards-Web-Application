@@ -3,7 +3,7 @@
   import SubjectMenu from './SubjectMenu.vue';
   import SubjectSubMenu from './SubjectSubmenu.vue';
   import { SUBJECTS } from '../constants/constants';
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { useRoute } from 'vue-router';
   import { useUser } from '../composable/useUser';
 
@@ -12,6 +12,7 @@
   const subjectMenuIsOpen = ref(false);
   const searchOpen = ref(false);
   const avatarMenuOpen = ref(false);
+  const notificationIsOpen = ref(false);
   const nightMode = ref(false);
   const { getUser } = useUser();
   const user = getUser();
@@ -29,10 +30,6 @@
   };
 
   const toggleSearch = () => {};
-
-  const toggleAvatarMenu = () => {
-    avatarMenuOpen.value = !avatarMenuOpen.value;
-  };
 
   const getSubjects = (title) => {
     const subjects = SUBJECTS.filter((subject) => subject.title === title);
@@ -61,7 +58,7 @@
         <div
           class="branch_logo font-bold text-xl mr-8 md:mr-4 xl:mr-12 hidden md:block xl:text-2xl"
         >
-          <router-link :to="{ name: user ? 'Latest' : 'Home' }">
+          <router-link :to="{ name: user ? 'Home' : 'Latest' }">
             Flash<span class="text-primary">Cards</span>
           </router-link>
         </div>
@@ -114,13 +111,13 @@
         <div class="space-x-4 lg:space-x-4" v-if="route.meta.type === 'auth'">
           <router-link
             :to="{ name: 'Login' }"
-            class="bg-white px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold hover:bg-light hover:text-primary_dark"
+            class="bg-white px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold hover:bg-light hover:text-primary_dark xl:px-4 xl:py-2 transition-colors"
           >
             Login
           </router-link>
           <router-link
             :to="{ name: 'SignUp' }"
-            class="bg-yellow px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold shadow-md text-black hover:bg-primary_dark active:bg-primary_dark"
+            class="bg-yellow px-3.5 py-1.5 md:px-3 md:py-1 rounded-sm text-sm font-bold shadow-md text-black hover:bg-primary_dark active:bg-primary_dark xl:px-4 xl:py-2 transition-colors"
           >
             Sign up
           </router-link>
@@ -128,12 +125,13 @@
 
         <div class="space-x-4 flex relative" v-else>
           <div
-            class="notification border border-black rounded-full w-7 h-7 flex justify-center items-center 2xl:w-8 2xl:h-8"
+            class="notification relative border border-black rounded-full w-7 h-7 flex justify-center items-center 2xl:w-8 2xl:h-8"
           >
             <img
               class="h-4 w-4 cursor-pointer"
               src="../assets/images/bell.svg"
               alt="notifications"
+              @click="notificationIsOpen = !notificationIsOpen"
             />
           </div>
           <button class="rounded-full w-7 h-7 overflow-hidden 2xl:w-8 2xl:h-8">
@@ -141,22 +139,33 @@
               class="w-full h-full object-cover"
               src="../assets/images/avatar.jpg"
               alt="avatar"
-              @click="toggleAvatarMenu"
+              @click="avatarMenuOpen = !avatarMenuOpen"
             />
           </button>
           <div
-            class="flex flex-col bg-white py-3 border-2 w-64 rounded-lg absolute top-8 -left-48"
+            class="absolute bg-white shadow-xl p-4 w-80 h-52 top-12 right-12 rounded-lg"
+            v-if="notificationIsOpen"
+          >
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
+              possimus eaque quidem totam nihil facere distinctio dignissimos
+              sunt officiis consectetur obcaecati magnam nam eveniet consequatur
+              quis ipsam voluptatibus, error voluptates.
+            </p>
+          </div>
+          <div
+            class="flex flex-col bg-white py-3 w-64 rounded-lg absolute top-12 -left-48 shadow-xl"
             v-if="avatarMenuOpen"
           >
             <div class="profile-info mx-4 mb-4 flex items-center space-x-4">
-              <div class="rounded-full w-7 h-7 overflow-hidden">
+              <div class="rounded-full w-7 h-auto overflow-hidden lg:w-8">
                 <img
                   class="w-full h-full object-cover"
                   src="../assets/images/avatar.jpg"
                   alt="avatar"
                 />
               </div>
-              <div class="text-sm">
+              <div class="text-sm lg:text-base">
                 <p>{{ user.displayName }}</p>
                 <p>{{ user.email }}</p>
               </div>
