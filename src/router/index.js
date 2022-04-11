@@ -58,6 +58,14 @@ const routes = [
       requireAuth: true,
     },
   },
+  {
+    name: 'Flashcards',
+    path: '/flashcards/:flashcardsId',
+    component: () => import('../views/FlashcardsView.vue'),
+    meta: {
+      requireAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({

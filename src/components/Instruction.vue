@@ -1,5 +1,14 @@
 <script setup>
-  import OtherFlashcards from './OtherFlashcards.vue';
+  import FlashcardBox from '../components/FlashcardBox.vue';
+  import { useUser } from '../composable/useUser';
+  import useCollection from '../composable/useCollection';
+
+  const { error, getRecord } = useCollection('flashcards');
+  const { getUser } = useUser();
+
+  const user = getUser();
+  const otherCards = getRecord(user.value.uid, false);
+  if (error.value) console.log(error.value);
 </script>
 
 <template>
@@ -83,7 +92,15 @@
       <h2 class="text-xl font-extrabold mt-16">Then find one below</h2>
     </div>
 
-    <OtherFlashcards />
+    <div
+      class="online-flashcards grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 md:gap-4"
+    >
+      <FlashcardBox
+        v-for="(card, index) in otherCards"
+        :key="index"
+        :card="card"
+      />
+    </div>
 
     <button
       class="bg-primary px-6 py-5 rounded-md mt-24 text-white font-bold md:justify-center mx-auto hover:bg-primary_dark active:bg-primary_dark"

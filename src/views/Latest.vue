@@ -1,7 +1,16 @@
 <script setup>
   import TopBar from '../components/TopBar.vue';
-  import OtherFlashcards from '../components/OtherFlashcards.vue';
-  import MyFlashcards from '../components/MyFlashcards.vue';
+  import FlashcardBox from '../components/FlashcardBox.vue';
+  import { useUser } from '../composable/useUser';
+  import useCollection from '../composable/useCollection';
+
+  const { error, getRecord } = useCollection('flashcards');
+  const { getUser } = useUser();
+
+  const user = getUser();
+  const myCards = getRecord(user.value.uid, true);
+  const otherCards = getRecord(user.value.uid, false);
+  if (error.value) console.log(error.value);
 </script>
 
 <template>
@@ -12,17 +21,33 @@
   >
     <div>
       <p class="font-bold text-2xl mb-12">Your flashcards</p>
-      <MyFlashcards />
+      <div
+        class="online-flashcards grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 md:gap-4"
+      >
+        <FlashcardBox
+          v-for="(card, index) in myCards"
+          :key="index"
+          :card="card"
+        />
+      </div>
     </div>
 
-    <div class="py-16">
+    <div class="pt-4">
       <p class="font-bold text-2xl my-12">Explore more flashcards</p>
-      <OtherFlashcards />
-      <button
-        class="bg-primary px-6 py-5 mt-16 rounded-md text-white font-bold md:justify-center hover:bg-primary_dark active:bg-primary_dark"
+      <div
+        class="online-flashcards grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 md:gap-4"
       >
-        Load more ...
-      </button>
+        <FlashcardBox
+          v-for="(card, index) in otherCards"
+          :key="index"
+          :card="card"
+        />
+      </div>
     </div>
+    <button
+      class="bg-primary px-6 py-5 mt-8 rounded-md text-white font-bold md:justify-center hover:bg-primary_dark active:bg-primary_dark transition-colors"
+    >
+      Load more ...
+    </button>
   </div>
 </template>

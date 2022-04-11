@@ -1,3 +1,12 @@
+const plugin = require('tailwindcss/plugin');
+
+const MyClass = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.my-rotate-x-180': {
+      transform: 'rotateX(180deg)',
+    },
+  });
+});
 module.exports = {
   content: ['./public/**/*.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
@@ -11,8 +20,9 @@ module.exports = {
         yellow: '#FFCC00',
         gray: '#586380',
         overlay: '#b1b3b8',
+        blac: '#303545',
       },
     },
   },
-  plugins: [],
+  plugins: [MyClass],
 };

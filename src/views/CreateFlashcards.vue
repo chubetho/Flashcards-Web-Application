@@ -1,10 +1,13 @@
 <script setup>
   import TopBar from '../components/TopBar.vue';
-  import { ref, reactive } from 'vue';
   import AddCardForm from '../components/AddCardFrom.vue';
+  import { ref, reactive } from 'vue';
   import useCollection from '../composable/useCollection';
   import { useUser } from '../composable/useUser';
   import { uid } from 'uid';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
 
   const scrollPosition = ref(0);
   window.addEventListener(
@@ -41,12 +44,14 @@
     });
   };
 
-  const onSubmit = async () => {
-    await addRecord(set);
+  const onSubmit = () => {
+    addRecord(set);
     if (error.value) {
       console.log(error);
       return;
     }
+
+    router.push({ name: 'Latest' });
   };
   const editCard = (cardId, newCard) => {
     set.cards = set.cards.map((c) =>
@@ -54,7 +59,6 @@
         ? { ...c, term: newCard.term, definition: newCard.definition }
         : c
     );
-    console.log(set.cards);
   };
 
   const deleteCard = (cardId) => {
